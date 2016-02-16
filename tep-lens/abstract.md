@@ -1,4 +1,4 @@
-# Approaching The Expression Problem with lens
+# The Expression Problem and Lenses
 
 The Expression Problem (TEP), a new name by Phil Wadler for an old problem, has
 presented challenges to programmers for decades. The practical considerations
