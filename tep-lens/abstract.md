@@ -23,6 +23,12 @@ and at the tertiary level and aspires to observing the direct benefits of
 advanced programming techniques to produce a viable commercial result. He is
 currently a Senior Software Engineer at Data61.
 
+### Photo
+
+<a href="tony.jpg">
+  <img src="tony.jpg" alt="Tony Morris" style="width: 220px"/>
+</a>
+
 ### Twitter
 
 @dibblego
