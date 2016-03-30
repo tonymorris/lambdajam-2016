@@ -26,7 +26,7 @@ currently a Senior Software Engineer at Data61.
 ### Photo
 
 <a href="tony.jpg">
-  <img src="tony.jpg" alt="Tony Morris" style="width: 220px"/>
+  <img src="tony.jpg" alt="Tony Morris" style="width: 100px"/>
 </a>
 
 ### Twitter
