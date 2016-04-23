@@ -1,0 +1,112 @@
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Disadvantages}
+What are some of the penalties?
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Disadvantages}
+Lots of boilerplate
+\begin{itemize}
+\item \lstinline[style=haskell, mathescape]{ $\{$-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-$\}$ }
+\item A type-class.
+\item An equivalence instance \lstinline[style=haskell]{(id)}.
+\item The instance for the field or constructor.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Disadvantages}
+Type errors are difficult to navigate.
+\begin{lstlisting}[style=haskell,mathescape]
+$\lambda$> 12.34 .#. 56.78
+
+No instance for (Fractional lat0)
+      arising from the literal '12.34'
+The type variable 'lat0' is ambiguous
+
+No instance for (AsLongitude
+      (->) (Control.Applicative.Const Longitude) lon0)
+  arising from a use of '.#.'
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Disadvantages}
+Type \textbf{signatures} are difficult to navigate.
+\begin{lstlisting}[style=haskell,basicstyle=\tiny,mathescape]
+javaClassFileParser ::
+  (AsEmpty (c Word8), AsEmpty (t Char),
+    AsEmpty (f (Attribute a1)), AsEmpty (a Word8),
+    AsEmpty (m (Attribute a2)), AsEmpty (a3 Word8), AsEmpty (a4 Word8),
+    AsEmpty (c1 (ConstantPoolInfo p)), AsEmpty (i Word16),
+    AsEmpty (s1 (Field a5 f1)), AsEmpty (t1 (Method m1 b)),
+    AsEmpty (u (Attribute d)), Cons (c Word8) (c Word8) Word8 Word8,
+    Cons (t Char) (t Char) Char Char,
+    Cons
+      (f (Attribute a1)) (f (Attribute a1)) (Attribute a) (Attribute a),
+    Cons (a Word8) (a Word8) Word8 Word8,
+    Cons
+      (m (Attribute a2))
+      (m (Attribute a2))
+      (Attribute a3)
+      (Attribute a3),
+    Cons (a3 Word8) (a3 Word8) Word8 Word8,
+    Cons (a4 Word8) (a4 Word8) Word8 Word8,
+    Cons
+      (c1 (ConstantPoolInfo p))
+      (c1 (ConstantPoolInfo p))
+      (ConstantPoolInfo t)
+      (ConstantPoolInfo t),
+    Cons (i Word16) (i Word16) Word16 Word16,
+    $\ldots$
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Disadvantages}
+No, srsly.
+\begin{lstlisting}[style=haskell,basicstyle=\tiny,mathescape]
+    $\ldots$
+    Cons
+      (s1 (Field a5 f1)) (s1 (Field a5 f1)) (Field a1 f) (Field a1 f),
+    Cons
+      (t1 (Method m1 b)) (t1 (Method m1 b)) (Method m a2) (Method m a2),
+    Cons
+      (u (Attribute d)) (u (Attribute d)) (Attribute a4) (Attribute a4),
+    AsClassFileCafebabeError Tagged Identity (s c),
+    AsClassFileVersionError Tagged Identity (s c),
+    AsClassFileConstantPoolError Tagged Identity s,
+    AsClassFileThisAccessFlagsError Tagged Identity (s c),
+    AsClassFileThisClassError Tagged Identity (s c),
+    AsClassFileSuperClassError Tagged Identity (s c),
+    AsClassFileInterfacesError Tagged Identity (s c),
+    AsClassFileFieldsError Tagged Identity (s c),
+    AsClassFileMethodsError Tagged Identity (s c),
+    AsClassFileAttributesError Tagged Identity (s c),
+    AsClassFileUnexpectedInputOnStream Tagged Identity (s c)) =>
+  Get (s c) (ClassFile p c1 i a5 f1 s1 m1 b t1 d u)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Disadvantages}
+However,
+\begin{itemize}
+\item This java class file parser works for both version 1.5 and 1.7 class files.
+\item Works for future java versions.
+\item Derived functions work against similar formats (.NET).
+\item and I can prove all this by \textbf{parametricity}.
+\end{itemize}
+\end{block}
+\end{frame}

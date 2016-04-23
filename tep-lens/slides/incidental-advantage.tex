@@ -1,0 +1,45 @@
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{An incidental advantage}
+GPS Exchange Format (GPX) is the open standard format for GPS tracks,
+waypoints and routes.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{An incidental advantage}
+\begin{itemize}
+\item a \textbf{gpx} has zero or many \textbf{tracks}
+\item a \textbf{track} has zero or many \textbf{segments}
+\item a \textbf{segment} has zero or many \textbf{track points}
+\item a \textbf{track point} has one \textbf{latitude}
+\item a \textbf{latitude} has a \textbf{decimal value between} -90 and 90
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{An incidental advantage}
+\begin{lstlisting}[style=haskell,mathescape]
+gpxTrack =
+  _Gpx . _Track
+gpxTrackSegment =
+  _GpxTrack . _Segment
+gpxTrackSegmentTrackPointLatitude =
+  _GpxTrackSegment . _TrackPoint . _Latitude
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{An incidental advantage}
+\begin{lstlisting}[style=haskell,mathescape]
+instance AsLatitude Gpx where $\ldots$
+\end{lstlisting}
+No need to come up with a tree of identifier names!
+\end{block}
+\end{frame}
+

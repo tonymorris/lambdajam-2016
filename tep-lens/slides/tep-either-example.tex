@@ -1,0 +1,152 @@
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Another example}
+\begin{lstlisting}[style=haskell,mathescape]
+data Either a b = Left a | Right b
+
+leftor :: a -> Either a b -> a
+leftor _ (Left a) = a
+leftor a (Right _) = a
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Add \lstinline[style=haskell]{None} case}
+\begin{lstlisting}[style=haskell,mathescape]
+data Either a b = Left a | Right b | None
+
+leftor :: a -> Either a b -> a
+leftor _ (Left a)  = a
+leftor a (Right _) = a
+leftor a None      = a
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Another example}
+We'd like to write \lstinline[style=haskell]{leftor} once, and for both data types.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{\lstinline[style=haskell]{None} case}
+\begin{lstlisting}[style=haskell,mathescape]
+data Either a b = Left a | Right b
+data Prolly a b = This a | That  b | None 
+
+leftor :: Leftish t => a -> t a b -> a
+leftor = $\ldots$
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish}
+We want to abstract
+\begin{itemize}
+\item the \textbf{view} of \lstinline{(a)}
+\item \textbf{possibly existing} in \lstinline{(t a b)}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish \textbf{view}}
+\begin{lstlisting}[style=haskell,mathescape]
+type LeftishView t a b =
+  (a `->` `Identity` a) -> (t a b `->` `Identity` (t a b))
+\end{lstlisting}
+\end{block}
+\begin{itemize}
+\item<1-> \lstinline[style=haskell]{Identity}
+\item<2-> \lstinline[style=haskell]{(->)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish \textbf{view}}
+\begin{lstlisting}[style=haskell,mathescape]
+type LeftishView p f t a b =
+  (a $`p`$ f a) -> (t a b $`p`$ f (t a b))
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Left \textbf{prism}}
+\begin{lstlisting}[style=haskell,mathescape]
+type LeftPrism p f t a b =
+  (Choice p, Applicative f) => 
+    (a $`p`$ f a) -> (t a b $`p`$ f (t a b))
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish type-class}
+\begin{lstlisting}[style=haskell,mathescape]
+class Leftish p f t where
+  _Leftish ::
+    (a $`p`$ f a) -> (t a b $`p`$ f (t a b))
+
+instance (Choice p, Applicative f) =>
+  Leftish p f Either where
+instance (Choice p, Applicative f) =>
+  Leftish p f Prolly where
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{\lstinline{leftor} from Leftish type-class}
+\begin{lstlisting}[style=haskell,mathescape]
+leftor ::
+  Leftish (->) (Const (First a)) t =>
+  a
+  -> t a b
+  -> a 
+leftor a x =
+  fromMaybe a (x ^? _Leftish)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Other structures supporting \lstinline{Leftish}}
+\tiny{
+\begin{itemize}
+\item \textbf{iso} \lstinline[style=haskell]{Const} in \lstinline[style=haskell]{data Const a b = Const a}
+\item \textbf{prism} \lstinline[style=haskell]{These} in \lstinline[style=haskell]{data These a b = This a | That b | Both a b}
+\item \textbf{prism} \lstinline[style=haskell]{Validation} in \lstinline[style=haskell]{data Validation e a = Fail e | Success a}
+\item \textbf{lens} \lstinline[style=haskell]{Pair} in \lstinline[style=haskell]{data Pair a b = Pair a b}
+\end{itemize}
+}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{\lstinline{leftor} from Leftish type-class}
+\begin{lstlisting}[style=haskell,mathescape]
+leftor ::
+  LeftLike (->) (Const (First a)) t =>
+  a
+  -> t a b
+  -> a 
+leftor a x =
+  fromMaybe a (x ^? _Leftish)
+\end{lstlisting}
+\end{block}
+\end{frame}
