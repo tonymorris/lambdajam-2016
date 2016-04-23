@@ -1,0 +1,57 @@
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Another example}
+\begin{lstlisting}[style=haskell,mathescape]
+data Either a b = Left a | Right b
+
+leftor :: a -> Either a b -> a
+leftor _ (Left a) = a
+leftor a (Right _) = a
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Add \lstinline[style=haskell]{None} case}
+\begin{lstlisting}[style=haskell,mathescape]
+data Either a b = Left a | Right b | None
+
+leftor :: a -> Either a b -> a
+leftor _ (Left a)  = a
+leftor a (Right _) = a
+leftor a None      = a
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Another example}
+We'd like to write \lstinline[style=haskell]{leftor} once, and for both data types.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{\lstinline[style=haskell]{Both} case}
+\begin{lstlisting}[style=haskell,mathescape]
+data Either a b = Left a | Right b
+data Prolly a b = This a | That  b | None 
+
+leftor :: Leftish p => a -> p a b -> a
+leftor = $\ldots$
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish}
+We want to abstract
+\begin{itemize}
+\item the \textbf{view} of \lstinline{(a)}
+\item \textbf{possibly existing} in \lstinline{(p a b)}
+\end{itemize}
+\end{block}
+\end{frame}
