@@ -48,3 +48,21 @@ instance (p ~ (->), Functor f) => -- Lens
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{The technique}
+\begin{lstlisting}[style=haskell,mathescape]
+data Shape = Circle Float | $\ldots$
+
+class AsRadius p f s where
+  _Radius ::
+    p Float (f Float) -> p s (f s)
+
+instance
+  AsRadius p f Float where _Radius = id
+instance (Choice p, Applicative f) => -- Prism
+  AsRadius p f Shape where $\ldots$
+\end{lstlisting}
+\ldots \emph{library functions in terms of \lstinline[style=haskell]{_Radius}}
+\end{block}
+\end{frame}
