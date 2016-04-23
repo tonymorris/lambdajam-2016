@@ -39,7 +39,7 @@ We'd like to write \lstinline[style=haskell]{leftor} once, and for both data typ
 data Either a b = Left a | Right b
 data Prolly a b = This a | That  b | None 
 
-leftor :: Leftish p => a -> p a b -> a
+leftor :: Leftish p => a -> t a b -> a
 leftor = $\ldots$
 \end{lstlisting}
 \end{block}
@@ -51,7 +51,18 @@ leftor = $\ldots$
 We want to abstract
 \begin{itemize}
 \item the \textbf{view} of \lstinline{(a)}
-\item \textbf{possibly existing} in \lstinline{(p a b)}
+\item \textbf{possibly existing} in \lstinline{(t a b)}
 \end{itemize}
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish \textbf{view}}
+\begin{lstlisting}[style=haskell,mathescape]
+type LeftishView f t a b =
+  (a  -> f a) -> (t a b -> f (t a b))
+\end{lstlisting}
+\end{block}
+\tiny{\emph{simplified for illustration}}
 \end{frame}
