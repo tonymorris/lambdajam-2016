@@ -7,3 +7,37 @@ indicator of its capacity for expression.
 \end{quote}
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{What is The Expression Problem?}
+\begin{lstlisting}[style=haskell,mathescape]
+data TrafficLight = Green | Amber | Red
+
+cycle Red = Green
+cycle Amber = Red
+cycle Green = Amber
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Adding a new case?}
+\begin{itemize}
+\item<1-> \lstinline[style=haskell,mathescape]{data TrafficLight = $\ldots$ | BusesOnlyProceed}
+\item<2-> All referencing functions (e.g. \lstinline[style=haskell]{cycle}) must either change or fail for the new case.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Create a new data type?}
+\begin{itemize}
+\item<1-> \lstinline[style=haskell,mathescape]{data BussyLight = Old TrafficLight | BusesOnlyProceed}
+\item<2-> Existing functions are unusable and must be repeated.
+\item<3-> Does there exist an appropriate abstraction? 
+\end{itemize}
+\end{block}
+\end{frame}
