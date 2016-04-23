@@ -60,8 +60,8 @@ We want to abstract
 \frametitle{The Expression Problem}
 \begin{block}{Leftish \textbf{view}}
 \begin{lstlisting}[style=haskell,mathescape]
-type LeftishView f t a b =
-  (a  -> f a) -> (t a b -> f (t a b))
+type LeftishView t a b =
+  (a  -> Identity a) -> (t a b -> Identity (t a b))
 \end{lstlisting}
 \end{block}
 \tiny{\emph{simplified for illustration}}
