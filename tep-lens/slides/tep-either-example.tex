@@ -61,8 +61,78 @@ We want to abstract
 \begin{block}{Leftish \textbf{view}}
 \begin{lstlisting}[style=haskell,mathescape]
 type LeftishView t a b =
-  (a  -> Identity a) -> (t a b -> Identity (t a b))
+  (a `->` `Identity` a) -> (t a b `->` `Identity` (t a b))
 \end{lstlisting}
 \end{block}
-\tiny{\emph{simplified for illustration}}
+\begin{itemize}
+\item<1-> \lstinline[style=haskell]{Identity}
+\item<2-> \lstinline[style=haskell]{(->)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish \textbf{view}}
+\begin{lstlisting}[style=haskell,mathescape]
+type LeftishView p f t a b =
+  (a $`p`$ f a) -> (t a b $`p`$ f (t a b))
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Left \textbf{prism}}
+\begin{lstlisting}[style=haskell,mathescape]
+type LeftPrism p f t a b =
+  (Choice p, Applicative f) => 
+    (a $`p`$ f a) -> (t a b $`p`$ f (t a b))
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Leftish type-class}
+\begin{lstlisting}[style=haskell,mathescape]
+class Leftish p f t where
+  _Leftish ::
+    (a $`p`$ f a) -> (t a b $`p`$ f (t a b))
+
+instance (Choice p, Applicative f) =>
+  Leftish p f Either where
+instance (Choice p, Applicative f) =>
+  Leftish p f Prolly where
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{\lstinline{leftor} from Leftish type-class}
+\begin{lstlisting}[style=haskell,mathescape]
+leftor ::
+  LeftLike (->) (Const (First a)) t =>
+  a
+  -> t a b
+  -> a 
+leftor a x =
+  fromMaybe a (x ^? _Leftish)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{\lstinline{leftor} from Leftish type-class}
+\begin{lstlisting}[style=haskell,mathescape]
+leftor ::
+  LeftLike (->) (Const (First a)) t =>
+  a
+  -> t a b
+  -> a 
+leftor a x =
+  fromMaybe a (x ^? _Leftish)
+\end{lstlisting}
+\end{block}
 \end{frame}
