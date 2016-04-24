@@ -18,3 +18,28 @@ waypoints and routes.
 \end{itemize}
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{An incidental advantage}
+\begin{lstlisting}[style=haskell,mathescape]
+gpxTrack =
+  _Gpx . _Track
+gpxTrackSegment =
+  _GpxTrack . _Segment
+gpxTrackSegmentTrackPointLatitude =
+  _GpxTrackSegment . _TrackPoint . _Latitude
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{An incidental advantage}
+\begin{lstlisting}[style=haskell,mathescape]
+instance AsLatitude Gpx where $\ldots$
+\end{lstlisting}
+No need to come up with a tree of identifier names!
+\end{block}
+\end{frame}
+
