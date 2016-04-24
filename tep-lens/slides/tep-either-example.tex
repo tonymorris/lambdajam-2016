@@ -34,12 +34,12 @@ We'd like to write \lstinline[style=haskell]{leftor} once, and for both data typ
 
 \begin{frame}[fragile]
 \frametitle{The Expression Problem}
-\begin{block}{\lstinline[style=haskell]{Both} case}
+\begin{block}{\lstinline[style=haskell]{None} case}
 \begin{lstlisting}[style=haskell,mathescape]
 data Either a b = Left a | Right b
 data Prolly a b = This a | That  b | None 
 
-leftor :: Leftish p => a -> t a b -> a
+leftor :: Leftish t => a -> t a b -> a
 leftor = $\ldots$
 \end{lstlisting}
 \end{block}
@@ -112,13 +112,27 @@ instance (Choice p, Applicative f) =>
 \begin{block}{\lstinline{leftor} from Leftish type-class}
 \begin{lstlisting}[style=haskell,mathescape]
 leftor ::
-  LeftLike (->) (Const (First a)) t =>
+  Leftish (->) (Const (First a)) t =>
   a
   -> t a b
   -> a 
 leftor a x =
   fromMaybe a (x ^? _Leftish)
 \end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The Expression Problem}
+\begin{block}{Other structures supporting \lstinline{Leftish}}
+\tiny{
+\begin{itemize}
+\item \textbf{iso} \lstinline[style=haskell]{Const} in \lstinline[style=haskell]{data Const a b = Const a}
+\item \textbf{prism} \lstinline[style=haskell]{These} in \lstinline[style=haskell]{data These a b = This a | That b | Both a b}
+\item \textbf{prism} \lstinline[style=haskell]{Validation} in \lstinline[style=haskell]{data Validation e a = Fail e | Success a}
+\item \textbf{lens} \lstinline[style=haskell]{Pair} in \lstinline[style=haskell]{data Pair a b = Pair a b}
+\end{itemize}
+}
 \end{block}
 \end{frame}
 
